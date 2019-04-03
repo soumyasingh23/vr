@@ -15,7 +15,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     TextView email;
-    Button logout;
+    Button logout,data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +23,7 @@ public class HomeActivity extends AppCompatActivity {
 
         email = (TextView)findViewById(R.id.textView3);
         logout = (Button)findViewById(R.id.logout);
-
+        data = (Button)findViewById(R.id.button3);
         firebaseAuth = FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser()==null)
         {
@@ -32,7 +32,12 @@ public class HomeActivity extends AppCompatActivity {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
         email.setText("hello, "+user.getDisplayName());
-
+        data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              startActivity(new Intent(getApplicationContext(),data_collection.class));
+            }
+        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
