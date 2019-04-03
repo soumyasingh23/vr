@@ -54,10 +54,10 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Enter password", Toast.LENGTH_SHORT).show();
             return;
         }
-//        if (!p1.equals(p2)) {
-//            Toast.makeText(this, "Enter same password", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+        if (!p1.equals(p2)) {
+            Toast.makeText(this, "Enter same password", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         firebaseAuth.createUserWithEmailAndPassword(emailStr, p1)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -70,7 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                             startActivity(i);
 
                         } else {
-                            Log.d("Error", task.getException().getMessage());
+                            Log.d("Error in registering ", task.getException().getMessage());
                             Toast.makeText(RegisterActivity.this, "Sign Up failed, please try again", Toast.LENGTH_SHORT).show();
                         }
                     }
