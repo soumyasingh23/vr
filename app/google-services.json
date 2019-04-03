@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "514381700431",
+    "firebase_url": "https://vrapp-b75d1.firebaseio.com",
+    "project_id": "vrapp-b75d1",
+    "storage_bucket": "vrapp-b75d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514381700431:android:1b0e6a740c0db0d2",
+        "android_client_info": {
+          "package_name": "com.example.myvrapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjim_hPEK8ilTZfhyKZaDtLfZDNJOoW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514381700431-scgvs76c5qihrjqlu63s7b5en8ok0jn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
