@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() != null) {
             finish();
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            startActivity(new Intent(getApplicationContext(), data_collection.class));
         }
 
         email = (EditText) findViewById(R.id.emailRegister);
@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                             user.updateProfile(profileChangeRequest);
                             Toast.makeText(RegisterActivity.this, "Signed Up successfully!", Toast.LENGTH_SHORT).show();
                             finish();
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                            startActivity(new Intent(getApplicationContext(), data_collection.class));
 
 
                         } else {
