@@ -98,6 +98,7 @@ public class data_collection extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(userInformation);
         Toast.makeText(getApplicationContext(), "info saved", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(getApplicationContext(), TempleActivity.class));
     }
 
     @Override

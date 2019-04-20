@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".data_collection"></activity>
+        <activity android:name=".DisplayTempleActivity"></activity>
+        <activity android:name=".TempleActivity" />
+        <activity android:name=".data_collection" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
