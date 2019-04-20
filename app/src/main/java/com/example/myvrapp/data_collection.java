@@ -43,13 +43,15 @@ public class data_collection extends AppCompatActivity {
         logout = (Button)findViewById(R.id.logoutBtn);
         display = (Button)findViewById(R.id.displayBtn);
         firebaseAuth = FirebaseAuth.getInstance();
-        if (firebaseAuth.getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null || firebaseAuth.getCurrentUser().getDisplayName() == null) {
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
         }
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user!=null && user.getEmail().startsWith("doc"))
+            startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
         if(user != null)
-        userName.setText("Hello, " + user.getDisplayName());
+            userName.setText("Hello, " + user.getDisplayName());
 
         templev = (Spinner) findViewById(R.id.spinner1);
         ArrayAdapter<String> myadapter = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.choices));
@@ -96,6 +98,8 @@ public class data_collection extends AppCompatActivity {
         userInformation.setNumberOfHoursSlept(hoursSlept);
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
+        userInformation.setName(user.getDisplayName());
+        userInformation.setEmail(user.getEmail());
         databaseReference.child(user.getUid()).setValue(userInformation);
         Toast.makeText(getApplicationContext(), "info saved", Toast.LENGTH_LONG).show();
         startActivity(new Intent(getApplicationContext(), TempleActivity.class));
