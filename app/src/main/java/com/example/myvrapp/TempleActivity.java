@@ -22,10 +22,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TempleActivity extends AppCompatActivity {
 
     private ListView templeList;
+    List<Temple> temples= new ArrayList<Temple>();
     private FirebaseListAdapter adapter;
     private DatabaseReference databaseReference;
     private ArrayList<String> templeNames = new ArrayList<>();
@@ -35,53 +37,39 @@ public class TempleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temple);
         templeList = (ListView) findViewById(R.id.templeList);
-        Query query = FirebaseDatabase.getInstance().getReference().child("Temple");
-        FirebaseListOptions<Temple> options = new FirebaseListOptions.Builder<Temple>()
-                .setLayout(R.layout.templerow_list)
-                .setLifecycleOwner(TempleActivity.this)
-                .setQuery(query, Temple.class)
-                .build();
-        adapter = new FirebaseListAdapter(options) {
-            @Override
-            protected void populateView(@NonNull View v, @NonNull Object model, int position) {
-                TextView name = v.findViewById(R.id.TempleName);
-                TextView city = v.findViewById(R.id.TempleCity);
-                ImageView image = v.findViewById(R.id.TempleImage);
-
-                Temple temple = (Temple)model;
-                name.setText(temple.getName());
-                city.setText(temple.getCity());
-                Picasso.with(TempleActivity.this).load(temple.getImage().toString()).into(image);
-            }
-
-        };
-        templeList.setAdapter(adapter);
-
-        templeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("position {}", Integer.toString(position));
-                Log.i("id {}", Long.toString(id));
-                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Query query = FirebaseDatabase.getInstance().getReference().child("Temple");
+//        FirebaseListOptions<Temple> options = new FirebaseListOptions.Builder<Temple>()
+//                .setLayout(R.layout.templerow_list)
+//                .setLifecycleOwner(TempleActivity.this)
+//                .setQuery(query, Temple.class)
+//                .build();
+//        adapter = new FirebaseListAdapter(options) {
+//            @Override
+//            protected void populateView(@NonNull View v, @NonNull Object model, int position) {
+//                TextView name = v.findViewById(R.id.TempleName);
+//                TextView city = v.findViewById(R.id.TempleCity);
+//                ImageView image = v.findViewById(R.id.TempleImage);
+//
+//                Temple temple = (Temple)model;
+//                name.setText(temple.getName());
+//                city.setText(temple.getCity());
+//                Picasso.with(TempleActivity.this).load(temple.getImage().toString()).into(image);
+//            }
+//
+//        };
+//        templeList.setAdapter(adapter);
+//
+//        templeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.i("position {}", Integer.toString(position));
+//                Log.i("id {}", Long.toString(id));
+//                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Temple");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot templeSnapshot: dataSnapshot.getChildren() )
-                {
-                    Temple temple = templeSnapshot.getValue(Temple.class);
-                    Log.i("temple {}",temple.getCity());
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
     }
 
@@ -90,12 +78,32 @@ public class TempleActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.startListening();
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                temples.clear();
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren() )
+                {
+                    Temple temple = dataSnapshot1.getValue(Temple.class);
+                    temples.add(temple);
+                }
+                CustomListAdapter templeListAdapter = new CustomListAdapter(TempleActivity.this, temples);
+                templeList.setAdapter(templeListAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+//        adapter.startListening();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+//        adapter.stopListening();
     }
 }
