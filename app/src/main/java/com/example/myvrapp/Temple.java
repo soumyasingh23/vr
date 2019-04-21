@@ -1,13 +1,32 @@
 package com.example.myvrapp;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Temple {
+public class Temple implements Serializable {
 
     private String name;
     private String city;
     private String Image;
     private int dist;
+    private String religion;
+    private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
+    }
 
     public int getDist() {
         return dist;
@@ -45,11 +64,12 @@ public class Temple {
         this.Image = image;
     }
 
-    public Temple(String name, String city, String image, int dist) {
+    public Temple(String name, String city, String image, int dist, String religion) {
         this.name = name;
         this.city = city;
         this.Image = image;
         this.dist = dist;
+        this.religion = religion;
     }
 }
 

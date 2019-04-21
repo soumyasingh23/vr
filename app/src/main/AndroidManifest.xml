@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserDetailsActivity"></activity>
+        <activity android:name=".PostDataCollectionActivity"></activity>
+        <activity android:name=".TempleImageActivity" />
+        <activity android:name=".UserDetailsActivity" />
         <activity android:name=".DoctorActivity" />
-        <activity android:name=".DisplayTempleActivity" />
         <activity android:name=".TempleActivity" />
         <activity android:name=".data_collection" />
         <activity android:name=".HomeActivity" />

@@ -1,6 +1,5 @@
 package com.example.myvrapp;
 
-import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
@@ -18,30 +17,29 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
-
-public class data_collection extends AppCompatActivity {
+public class PostDataCollectionActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
     Button logout, display;
     TextView userName;
-    private Spinner templev, slept, appetite, comm_support, health, psych, time_bal;
+    private Spinner vrInv, health, psych, time_bal;
     boolean doubleBackToExitPressedOnce = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_data_collection);
+        setContentView(R.layout.activity_post_data_collection);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("UserInfo");
+        Temple temple = (Temple)getIntent().getSerializableExtra("temple");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(temple.getUrl()));
+        startActivity(browserIntent);
+        databaseReference = FirebaseDatabase.getInstance().getReference("PostUseInfo");
 
 
-        userName = (TextView) findViewById(R.id.userName);
-        logout = (Button)findViewById(R.id.logoutBtn);
-        display = (Button)findViewById(R.id.displayBtn);
+        userName = (TextView) findViewById(R.id.userName2);
+        logout = (Button)findViewById(R.id.logoutBtn2);
+        display = (Button)findViewById(R.id.displayBtn2);
         firebaseAuth = FirebaseAuth.getInstance();
         if (firebaseAuth.getCurrentUser() == null || firebaseAuth.getCurrentUser().getDisplayName() == null) {
             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
@@ -51,41 +49,30 @@ public class data_collection extends AppCompatActivity {
         if(user!=null && user.getEmail().startsWith("doc"))
             startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
         if(user != null)
-            userName.setText("Hello, " + user.getDisplayName());
+            userName.setText("Hello, " + user.getDisplayName() + ", rate your experience.");
 
-        templev = (Spinner) findViewById(R.id.spinner1);
-        ArrayAdapter<String> myadapter = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.choices));
-        myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
-        templev.setAdapter(myadapter);
-        slept = (Spinner)findViewById(R.id.spinner2);
-        ArrayAdapter<String> myadapter2 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.hours));
-        myadapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        slept.setAdapter(myadapter2);
-        appetite = (Spinner)findViewById(R.id.spinner3);
-        ArrayAdapter<String> myadapter3 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.appetite));
-        myadapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        appetite.setAdapter(myadapter3);
-
-        comm_support = (Spinner)findViewById(R.id.spinner4);
-        ArrayAdapter<String> myadapter4 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
+        vrInv = (Spinner)findViewById(R.id.spinner42);
+        ArrayAdapter<String> myadapter4 = new ArrayAdapter<>(PostDataCollectionActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
         myadapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        comm_support.setAdapter(myadapter4);
-        health = (Spinner)findViewById(R.id.spinner5);
-        ArrayAdapter<String> myadapter5 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
+        vrInv.setAdapter(myadapter4);
+        health = (Spinner)findViewById(R.id.spinner52);
+        ArrayAdapter<String> myadapter5 = new ArrayAdapter<>(PostDataCollectionActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
         myadapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         health.setAdapter(myadapter5);
-        psych = (Spinner)findViewById(R.id.spinner6);
-        ArrayAdapter<String> myadapter6 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
+        psych = (Spinner)findViewById(R.id.spinner62);
+        ArrayAdapter<String> myadapter6 = new ArrayAdapter<>(PostDataCollectionActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
         myadapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         psych.setAdapter(myadapter6);
-        time_bal = (Spinner)findViewById(R.id.spinner7);
-        ArrayAdapter<String> myadapter7 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
+        time_bal = (Spinner)findViewById(R.id.spinner72);
+        ArrayAdapter<String> myadapter7 = new ArrayAdapter<>(PostDataCollectionActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
         myadapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         time_bal.setAdapter(myadapter7);
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveUserInformation();
                 firebaseAuth.signOut();
                 finish();
                 startActivity(new Intent(getApplicationContext(), LogInActivity.class));
@@ -97,8 +84,7 @@ public class data_collection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveUserInformation();
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://scapic.com/@riyasahal/temple_1-k0zZp"));
-//                startActivity(browserIntent);
+                startActivity(new Intent(getApplicationContext(), TempleActivity.class));
             }
         });
 
@@ -106,18 +92,12 @@ public class data_collection extends AppCompatActivity {
 
     private void saveUserInformation()
     {
-        String visitTemple = templev.getSelectedItem().toString();
-        String hoursSlept =  slept.getSelectedItem().toString();
-        String appetiteStr = appetite.getSelectedItem().toString();
-        String commSuppStr = comm_support.getSelectedItem().toString();
+        String vrInvStr = vrInv.getSelectedItem().toString();
         String healthStr = health.getSelectedItem().toString();
         String psychStr = psych.getSelectedItem().toString();
         String timeBalStr = time_bal.getSelectedItem().toString();
         UserInformation userInformation = new UserInformation();
-        userInformation.setVisitTemple(visitTemple);
-        userInformation.setAppetite(appetiteStr);
-        userInformation.setNumberOfHoursSlept(hoursSlept);
-        userInformation.setCommunitySupport(commSuppStr);
+        userInformation.setVrInvolvement(vrInvStr);
         userInformation.setHealthAndEnergyLevel(healthStr);
         userInformation.setPsychologicalWellBeing(psychStr);
         userInformation.setTimeBalance(timeBalStr);
@@ -127,7 +107,7 @@ public class data_collection extends AppCompatActivity {
         userInformation.setEmail(user.getEmail());
         userInformation.setUserId(user.getUid());
         databaseReference.child(user.getUid()).setValue(userInformation);
-        Toast.makeText(getApplicationContext(), "info saved", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Info saved", Toast.LENGTH_LONG).show();
         startActivity(new Intent(getApplicationContext(), TempleActivity.class));
     }
 

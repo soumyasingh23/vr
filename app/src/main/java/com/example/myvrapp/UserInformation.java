@@ -10,6 +10,62 @@ public class UserInformation implements Serializable {
     private String name;
     private String email;
 
+    private String communitySupport;
+    private String healthAndEnergyLevel;
+    private String psychologicalWellBeing;
+    private String timeBalance;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getVrInvolvement() {
+        return vrInvolvement;
+    }
+
+    public void setVrInvolvement(String vrInvolvement) {
+        this.vrInvolvement = vrInvolvement;
+    }
+
+    private String vrInvolvement;
+
+    public String getCommunitySupport() {
+        return communitySupport;
+    }
+
+    public void setCommunitySupport(String communitySupport) {
+        this.communitySupport = communitySupport;
+    }
+
+    public String getHealthAndEnergyLevel() {
+        return healthAndEnergyLevel;
+    }
+
+    public void setHealthAndEnergyLevel(String healthAndEnergyLevel) {
+        this.healthAndEnergyLevel = healthAndEnergyLevel;
+    }
+
+    public String getPsychologicalWellBeing() {
+        return psychologicalWellBeing;
+    }
+
+    public void setPsychologicalWellBeing(String psychologicalWellBeing) {
+        this.psychologicalWellBeing = psychologicalWellBeing;
+    }
+
+    public String getTimeBalance() {
+        return timeBalance;
+    }
+
+    public void setTimeBalance(String timeBalance) {
+        this.timeBalance = timeBalance;
+    }
+
     public String getName() {
         return name;
     }

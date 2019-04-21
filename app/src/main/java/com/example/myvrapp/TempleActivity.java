@@ -1,9 +1,11 @@
 package com.example.myvrapp;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,6 +39,8 @@ public class TempleActivity extends AppCompatActivity {
     private FirebaseListAdapter adapter;
     private DatabaseReference databaseReference;
     private String userLocation = "Bangalore";
+    public String userReligion = "Christianity";
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +69,24 @@ public class TempleActivity extends AppCompatActivity {
 //        };
 //        templeList.setAdapter(adapter);
 //
-//        templeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.i("position {}", Integer.toString(position));
-//                Log.i("id {}", Long.toString(id));
-//                Toast.makeText(getApplicationContext(), "clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        templeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Temple temple = temples.get(position);
+                Intent intent;
+                if(temple.getUrl()!=null)
+                {
+                    intent = new Intent(getApplicationContext(), PostDataCollectionActivity.class);
+                    intent.putExtra("temple", temple);
+                    startActivity(intent);
+                }
+                else {
+                    intent = new Intent(getApplicationContext(), TempleImageActivity.class);
+                    intent.putExtra("temple", temple);
+                    startActivity(intent);
+                }
+            }
+        });
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Temple");
 
@@ -128,6 +142,18 @@ public class TempleActivity extends AppCompatActivity {
                 temple.setDist(Math.round(dist));
             }
             Collections.sort(templesList, new SortByDist());
+            ArrayList<Temple> others = new ArrayList<>();
+            ArrayList<Temple> rel = new ArrayList<>();
+            for(Temple temple: templesList)
+            {
+                if(temple.getReligion().equals(userReligion))
+                    rel.add(temple);
+                else
+                    others.add(temple);
+            }
+            templesList.clear();
+            templesList.addAll(rel);
+            templesList.addAll(others);
 
         }
         catch (Exception e)
@@ -142,4 +168,24 @@ public class TempleActivity extends AppCompatActivity {
         super.onStop();
 //        adapter.stopListening();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 200);
+    }
+
 }
