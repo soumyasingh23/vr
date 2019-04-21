@@ -1,5 +1,9 @@
 package com.example.myvrapp;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class TempleActivity extends AppCompatActivity {
@@ -30,7 +36,7 @@ public class TempleActivity extends AppCompatActivity {
     List<Temple> temples= new ArrayList<Temple>();
     private FirebaseListAdapter adapter;
     private DatabaseReference databaseReference;
-    private ArrayList<String> templeNames = new ArrayList<>();
+    private String userLocation = "Bangalore";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +94,7 @@ public class TempleActivity extends AppCompatActivity {
                     Temple temple = dataSnapshot1.getValue(Temple.class);
                     temples.add(temple);
                 }
+                temples = sortByDistance(temples);
                 CustomListAdapter templeListAdapter = new CustomListAdapter(TempleActivity.this, temples);
                 templeList.setAdapter(templeListAdapter);
 
@@ -98,7 +105,36 @@ public class TempleActivity extends AppCompatActivity {
 
             }
         });
-//        adapter.startListening();
+    }
+
+    private List<Temple> sortByDistance(List<Temple> templesList)
+    {
+        try {
+            Geocoder gc = new Geocoder(this);
+            List<Address> addresses = gc.getFromLocationName(userLocation, 1);
+            Address address = addresses.get(0);
+            Location from = new Location(LocationManager.GPS_PROVIDER);
+            from.setLatitude(address.getLatitude());
+            from.setLongitude(address.getLongitude());
+            for(Temple temple: templesList)
+            {
+                String toCity = temple.getCity();
+                addresses = gc.getFromLocationName(toCity, 1);
+                address = addresses.get(0);
+                Location to = new Location(LocationManager.GPS_PROVIDER);
+                to.setLatitude(address.getLatitude());
+                to.setLongitude(address.getLongitude());
+                float dist = from.distanceTo(to);
+                temple.setDist(Math.round(dist));
+            }
+            Collections.sort(templesList, new SortByDist());
+
+        }
+        catch (Exception e)
+        {
+            Log.e("error {}", e.getMessage());
+        }
+        return templesList;
     }
 
     @Override
