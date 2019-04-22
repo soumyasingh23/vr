@@ -15,6 +15,24 @@ public class UserInformation implements Serializable {
     private String psychologicalWellBeing;
     private String timeBalance;
     private String userId;
+    private String religion;
+    private String location;
+
+    public String getReligion() {
+        return religion;
+    }
+
+    public void setReligion(String religion) {
+        this.religion = religion;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getUserId() {
         return userId;

@@ -24,7 +24,6 @@ public class UserDetailsActivity extends AppCompatActivity {
     TextView userName, psychBefore, psychAfter, vrInvolvement, commSupp, healthBefore, healthAfter, timeBalBefore, timeBalAfter, HIbefore, HIafter;
     private Button back, logout;
     DatabaseReference databaseReference;
-    boolean doubleBackToExitPressedOnce = false;
     private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         UserInformation user = (UserInformation) getIntent().getSerializableExtra("user");
         firebaseAuth = FirebaseAuth.getInstance();
         userName = (TextView) findViewById(R.id.userName3);
-        userName.setText(user.getName());
+        userName.setText(user.getName().toUpperCase());
 
         commSupp = (TextView) findViewById(R.id.commSupp);
         commSupp.setText(user.getCommunitySupport());
@@ -102,24 +101,5 @@ public class UserDetailsActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 200);
     }
 }

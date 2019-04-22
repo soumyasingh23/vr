@@ -29,7 +29,7 @@ public class UserListAdapter extends ArrayAdapter<UserInformation> {
 
         //this code sets the values of the objects to values from the arrays
         UserInformation userInformation = userInformationList.get(position);
-        nameTextField.setText(userInformation.getName());
+        nameTextField.setText(userInformation.getName().toUpperCase());
         emailTextField.setText(userInformation.getEmail());
         return rowView;
 

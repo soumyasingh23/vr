@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +29,8 @@ public class data_collection extends AppCompatActivity {
     private DatabaseReference databaseReference;
     Button logout, display;
     TextView userName;
-    private Spinner templev, slept, appetite, comm_support, health, psych, time_bal;
+    private Spinner templev, slept, appetite, comm_support, health, psych, time_bal, religion;
+    private EditText location;
     boolean doubleBackToExitPressedOnce = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +53,13 @@ public class data_collection extends AppCompatActivity {
         if(user!=null && user.getEmail().startsWith("doc"))
             startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
         if(user != null)
-            userName.setText("Hello, " + user.getDisplayName());
+            userName.setText("Hello, " + user.getDisplayName().toUpperCase());
 
+        religion = (Spinner) findViewById(R.id.religionSpinner);
+        ArrayAdapter<String> myadapter8 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.religion));
+        myadapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
+        religion.setAdapter(myadapter8);
+        location = (EditText) findViewById(R.id.cityText);
         templev = (Spinner) findViewById(R.id.spinner1);
         ArrayAdapter<String> myadapter = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.choices));
         myadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item );
@@ -113,7 +120,11 @@ public class data_collection extends AppCompatActivity {
         String healthStr = health.getSelectedItem().toString();
         String psychStr = psych.getSelectedItem().toString();
         String timeBalStr = time_bal.getSelectedItem().toString();
+        String locationStr = location.getText().toString();
+        String religionStr = religion.getSelectedItem().toString();
         UserInformation userInformation = new UserInformation();
+        userInformation.setReligion(religionStr);
+        userInformation.setLocation(locationStr);
         userInformation.setVisitTemple(visitTemple);
         userInformation.setAppetite(appetiteStr);
         userInformation.setNumberOfHoursSlept(hoursSlept);

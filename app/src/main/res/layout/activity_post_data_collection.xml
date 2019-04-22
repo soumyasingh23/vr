@@ -19,8 +19,23 @@
         android:id="@+id/userName2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/textView73"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="Rate the following from 1 to 5:\n 1-Very Bad 2-Bad 3-Average 4-Good 5-Very Good"
+            android:textSize="12sp" />
 
     <TextView
         android:id="@+id/textView72"

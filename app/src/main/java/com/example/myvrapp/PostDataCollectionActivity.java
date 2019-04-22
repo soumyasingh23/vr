@@ -49,7 +49,7 @@ public class PostDataCollectionActivity extends AppCompatActivity {
         if(user!=null && user.getEmail().startsWith("doc"))
             startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
         if(user != null)
-            userName.setText("Hello, " + user.getDisplayName() + ", rate your experience.");
+            userName.setText("Hello, " + user.getDisplayName().toUpperCase() + "\nRate your experience");
 
         vrInv = (Spinner)findViewById(R.id.spinner42);
         ArrayAdapter<String> myadapter4 = new ArrayAdapter<>(PostDataCollectionActivity.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.range));
