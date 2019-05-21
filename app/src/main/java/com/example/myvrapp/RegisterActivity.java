@@ -78,7 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
                                     .setDisplayName(uid).build();
                             user.updateProfile(profileChangeRequest);
                             Toast.makeText(RegisterActivity.this, "Signed Up successfully!", Toast.LENGTH_SHORT).show();
-                            finish();
                             startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                         } else {
                             Log.d("Error in registering ", task.getException().getMessage());

@@ -59,28 +59,6 @@ public class TempleActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user!=null && user.getEmail().startsWith("doc"))
             startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
-//        Query query = FirebaseDatabase.getInstance().getReference().child("Temple");
-//        FirebaseListOptions<Temple> options = new FirebaseListOptions.Builder<Temple>()
-//                .setLayout(R.layout.templerow_list)
-//                .setLifecycleOwner(TempleActivity.this)
-//                .setQuery(query, Temple.class)
-//                .build();
-//        adapter = new FirebaseListAdapter(options) {
-//            @Override
-//            protected void populateView(@NonNull View v, @NonNull Object model, int position) {
-//                TextView name = v.findViewById(R.id.TempleName);
-//                TextView city = v.findViewById(R.id.TempleCity);
-//                ImageView image = v.findViewById(R.id.TempleImage);
-//
-//                Temple temple = (Temple)model;
-//                name.setText(temple.getName());
-//                city.setText(temple.getCity());
-//                Picasso.with(TempleActivity.this).load(temple.getImage().toString()).into(image);
-//            }
-//
-//        };
-//        templeList.setAdapter(adapter);
-//
         templeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -193,7 +171,6 @@ public class TempleActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-//        adapter.stopListening();
     }
 
     @Override

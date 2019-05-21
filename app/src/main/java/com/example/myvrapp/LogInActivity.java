@@ -40,10 +40,6 @@ public class LogInActivity extends AppCompatActivity {
         {
             startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
         }
-        else if(user!=null)
-        {
-            startActivity(new Intent(getApplicationContext(), data_collection.class));
-        }
 
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override

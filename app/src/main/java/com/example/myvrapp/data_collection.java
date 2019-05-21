@@ -1,9 +1,6 @@
 package com.example.myvrapp;
 
-import android.app.Application;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,9 +16,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 
 public class data_collection extends AppCompatActivity {
 
@@ -52,8 +46,9 @@ public class data_collection extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user!=null && user.getEmail().startsWith("doc"))
             startActivity(new Intent(getApplicationContext(), DoctorActivity.class));
-        if(user != null)
+        if(user != null) {
             userName.setText("Hello, " + user.getDisplayName().toUpperCase());
+        }
 
         religion = (Spinner) findViewById(R.id.religionSpinner);
         ArrayAdapter<String> myadapter8 = new ArrayAdapter<>(data_collection.this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.religion));
@@ -104,8 +99,6 @@ public class data_collection extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveUserInformation();
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://scapic.com/@riyasahal/temple_1-k0zZp"));
-//                startActivity(browserIntent);
             }
         });
 
